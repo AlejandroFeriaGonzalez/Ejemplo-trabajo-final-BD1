@@ -29,7 +29,7 @@
         <h2>Integrantes</h2>
         <ul>
             <li>Alejandro Feria Gonzales</li>
-            <li>Abraham David Miguel Cardeas</li>
+            <li>Abraham David Miguel Cardenas</li>
         </ul>
     </div>
 
