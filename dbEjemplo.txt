@@ -1,0 +1,43 @@
+CREATE TABLE cliente(
+  cedula INT(10) PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL,
+  celular INT(10) NOT NULL
+);
+
+CREATE TABLE empresa(
+  nit INT(10) PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL,
+  presupuesto INT(10) NOT NULL,
+  cliente INT(10),
+  FOREIGN KEY(cliente) REFERENCES cliente
+);
+
+ALTER TABLE `empresa` ADD CONSTRAINT `foranea` FOREIGN KEY (`cliente`) REFERENCES `cliente`(`cedula`) ON DELETE RESTRICT ON UPDATE RESTRICT; 
+
+CREATE TABLE proyecto(
+  codigo INT(10) PRIMARY KEY,
+  fechacreacion DATE NOT NULL,
+  valor INT(10) NOT NULL,
+  cliente INT(10),
+  empresa INT(10),
+  FOREIGN KEY(cliente) REFERENCES cliente,
+  FOREIGN KEY(empresa) REFERENCES empresa
+);
+
+CREATE TABLE proyecto(
+  codigo INT(10) PRIMARY KEY,
+  fechacreacion DATE NOT NULL,
+  valor INT(10) NOT NULL,
+  cliente INT(10),
+  empresa INT(10),
+  FOREIGN KEY(`cliente`) REFERENCES `cliente`,
+  FOREIGN KEY(`empresa`) REFERENCES `empresa`
+);
+
+INSERT INTO `cliente` (`cedula`, `nombre`, `celular`) VALUES ('4', 'Miguel', '302654');
+
+INSERT INTO `empresa` (`nit`, `nombre`, `presupuesto`, `cliente`) VALUES ('10', 'globant', '1000000', '1');
+
+INSERT INTO `empresa` (`nit`, `nombre`, `presupuesto`, `cliente`) VALUES ('11', 'google', '999999', '2');
+
+INSERT INTO `proyecto` (`codigo`, `fechacreacion`, `valor`, `cliente`, `empresa`) VALUES ('20', '2024-09-24', '400', '1', '12');
