@@ -1,0 +1,9 @@
+SELECT * FROM borrar;
+
+CREATE TABLE FACULTAD(
+    nombre_facultad VARCHAR(50) PRIMARY KEY,
+    numero_contacto INT NOT NULL,
+    correo VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE ADMINISTRATIVO 
