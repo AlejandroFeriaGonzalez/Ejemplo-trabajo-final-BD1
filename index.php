@@ -14,23 +14,22 @@
 <body>
 <div class="container mt-5">
 
-    <h1>Trabajo final BD1 - (Título de su trabajo)</h1>
+    <h1>Trabajo final BD1 - Diseño de Base de Datos para Gestión Académica</h1>
 
     <div class="informacion">
         <ul>
             <li><b>Materia:</b> Bases de Datos I</li>
             <li><b>Profesor:</b> Francisco Javier Moreno Arboleda</li>
             <li><b>Institución:</b> Universidad Nacional de Colombia sede Medellín</li>
-            <li><b>Semestre:</b> 2022-1</li>
+            <li><b>Semestre:</b> 2024-1</li>
         </ul>
     </div>
 
     <div class="integrantes">
         <h2>Integrantes</h2>
         <ul>
-            <li>Integrante 1</li>
-            <li>Integrante 2</li>
-            <li>Integrante 3</li>
+            <li>Alejandro Feria Gonzales</li>
+            <li>Abraham David Miguel Cardeas</li>
         </ul>
     </div>
 
