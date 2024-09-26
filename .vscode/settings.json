@@ -17,6 +17,12 @@
             "driver": "SQLite",
             "name": "universidad",
             "database": "${workspaceFolder:Ejemplo trabajo final BD1}/universidad.db"
+        },
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "uni",
+            "database": "${workspaceFolder:Ejemplo-trabajo-final-BD1}/universidad.db"
         }
     ]
 }
