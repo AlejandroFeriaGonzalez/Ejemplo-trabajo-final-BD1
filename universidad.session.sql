@@ -107,12 +107,12 @@ CREATE TABLE SOLICITUD_ACADEMICA(
     fecha_solicitud DATE NOT NULL,
     tipo_solicitud VARCHAR(50) NOT NULL CHECK (tipo_solicitud IN ('Inscripcion', 'Cancelacion', 'Trabajo de grado', 'Reingreso', 'Derecho de grado')),
     valor INT(10) NOT NULL,
-    estudiantes INT(10) NOT NULL,
-    RECEPCIONISTA INT(10) NOT NULL,
-    REVISOR INT(10) NOT NULL,
-    FOREIGN KEY (RECEPCIONISTA) REFERENCES ADMINISTRATIVO(codigo),
-    FOREIGN KEY (REVISOR) REFERENCES ADMINISTRATIVO(codigo),
-    FOREIGN KEY (estudiantes) REFERENCES ESTUDIANTE(codigo)
+    estudiante INT(10) NOT NULL,
+    recepcionista INT(10) NOT NULL,
+    revisor INT(10) NOT NULL,
+    FOREIGN KEY (recepcionista) REFERENCES ADMINISTRATIVO(codigo),
+    FOREIGN KEY (revisor) REFERENCES ADMINISTRATIVO(codigo),
+    FOREIGN KEY (estudiante) REFERENCES ESTUDIANTE(codigo)
 );
 
 DROP TABLE IF EXISTS DETALLE_CALIFICACION;
@@ -211,11 +211,12 @@ INSERT INTO DETALLE_CALIFICACION (puntuacion, semestre, grupo, estudiante) VALUE
 
 INSERT INTO ADMINISTRATIVO (cedula, nombre, salario, facultad) VALUES
 (11111111, 'Carlos', 1000000, 1),
-(22222222, 'Andres', 2000000, 2),
-(33333333, 'Camilo', 3000000, 3),
-(44444444, 'Daniel', 4000000, 4);
+(22222222, 'Andres', 2000000, 1),
+(33333333, 'Juan', 2000000, 2),
+(44444444, 'Camilo', 3000000, 3),
+(55555555, 'Daniel', 4000000, 4);
 
-INSERT INTO SOLICITUD_ACADEMICA (codigo, fecha_solicitud, tipo_solicitud, valor, estudiantes, RECEPCIONISTA, REVISOR) VALUES
+INSERT INTO SOLICITUD_ACADEMICA (codigo, fecha_solicitud, tipo_solicitud, valor, estudiante, recepcionista, revisor) VALUES
 (1, '2023-1-1', 'Inscripcion', 1000000, 2, 11111111, 11111111),
 (2, '2023-1-2', 'Cancelacion', 2000000, 4, 33333333, 11111111),
 (3, '2023-1-3', 'Trabajo de grado', 3000000, 6, 11111111, 22222222),
@@ -233,49 +234,24 @@ INSERT INTO SOLICITUD_ACADEMICA (codigo, fecha_solicitud, tipo_solicitud, valor,
 (15, '2023-1-15', 'Derecho de grado', 15000000, 6, 11111111, 44444444),
 (16, '2023-1-16', 'Inscripcion', 16000000, 8, 33333333, 44444444),
 (17, '2023-1-17', 'Cancelacion', 17000000, 2, 11111111, 11111111),
-(18, '2023-1-18', 'Trabajo de grado', 18000000, 4, 33333333, 11111111);
+(18, '2023-1-18', 'Trabajo de grado', 18000000, 4, 33333333, 11111111),
+(19, '2023-1-19', 'Reingreso', 19000000, 6, 11111111, 55555555),
+(20, '2023-1-20', 'Derecho de grado', 20000000, 8, 33333333, 55555555);
 
--- cedula y nombre de los 3 administrativos que mas solicitudes han revisado
 
-SELECT a.cedula, a.nombre
-FROM ADMINISTRATIVO a
+-- mostrar todas las solicitudes que ha revisado el empleado de mayor salario de la facultad de Ingenieria, en consulta debe decir textualmento 'Ingenieria'
+
+SELECT * FROM SOLICITUD_ACADEMICA WHERE revisor = (SELECT cedula FROM ADMINISTRATIVO WHERE salario = (SELECT MAX(salario) FROM ADMINISTRATIVO WHERE facultad = (SELECT codigo FROM FACULTAD WHERE nombre = 'Humanidades')));
+
+SELECT * FROM SOLICITUD_ACADEMICA WHERE revisor IN (SELECT cedula FROM ADMINISTRATIVO WHERE facultad = 3 ORDER BY salario DESC LIMIT 1);
+
+SELECT * 
+FROM SOLICITUD_ACADEMICA 
 JOIN (
-    SELECT REVISOR
-    FROM SOLICITUD_ACADEMICA
-    GROUP BY REVISOR
-    ORDER BY COUNT(*) DESC
-    LIMIT 3
-) top_revisores ON a.cedula = top_revisores.REVISOR;
-
--- cedula y nombre y total de los 3 administrativos que mas solicitudes han revisado
-
-SELECT a.cedula, a.nombre, COUNT(*) AS total
-FROM ADMINISTRATIVO a
-JOIN SOLICITUD_ACADEMICA s ON a.cedula = s.REVISOR
-GROUP BY a.cedula, a.nombre
-ORDER BY total DESC
-LIMIT 3;
-
-
--- codigo y nombre de las 3 facultades que mas dinero han manejado revisando solicitudes;
-
-SELECT f.codigo, f.nombre
-FROM FACULTAD f
-JOIN ADMINISTRATIVO a ON f.codigo = a.facultad
-JOIN (
-    SELECT REVISOR
-    FROM SOLICITUD_ACADEMICA
-    GROUP BY REVISOR
-    ORDER BY SUM(valor) DESC
-    LIMIT 3
-) top_revisores ON a.cedula = top_revisores.REVISOR;
-
--- codigo , nombre y total_dinero de las 3 facultades que mas dinero han manejado revisando solicitudes;
-
-SELECT f.codigo, f.nombre, SUM(s.valor) AS total_dinero
-FROM FACULTAD f
-JOIN ADMINISTRATIVO a ON f.codigo = a.facultad
-JOIN SOLICITUD_ACADEMICA s ON a.cedula = s.REVISOR
-GROUP BY f.codigo, f.nombre
-ORDER BY total_dinero DESC
-LIMIT 3;
+    SELECT cedula 
+    FROM ADMINISTRATIVO 
+    WHERE facultad = 3 
+    ORDER BY salario DESC 
+    LIMIT 1
+) AS top_revisor 
+ON SOLICITUD_ACADEMICA.revisor = top_revisor.cedula;

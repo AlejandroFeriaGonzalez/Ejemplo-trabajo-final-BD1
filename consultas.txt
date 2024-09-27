@@ -25,3 +25,59 @@ WHERE codigo IN (
         LIMIT 3
     )
 );
+
+-- cedula y nombre de los 3 administrativos que mas solicitudes han revisado
+
+SELECT a.cedula, a.nombre
+FROM ADMINISTRATIVO a
+JOIN (
+    SELECT REVISOR
+    FROM SOLICITUD_ACADEMICA
+    GROUP BY REVISOR
+    ORDER BY COUNT(*) DESC
+    LIMIT 3
+) top_revisores ON a.cedula = top_revisores.REVISOR;
+
+-- cedula y nombre y total de los 3 administrativos que mas solicitudes han revisado
+
+SELECT a.cedula, a.nombre, COUNT(*) AS total
+FROM ADMINISTRATIVO a
+JOIN SOLICITUD_ACADEMICA s ON a.cedula = s.REVISOR
+GROUP BY a.cedula, a.nombre
+ORDER BY total DESC
+LIMIT 3;
+
+
+-- codigo y nombre de las 3 facultades que mas dinero han manejado revisando solicitudes;
+
+SELECT f.codigo, f.nombre
+FROM FACULTAD f
+JOIN ADMINISTRATIVO a ON f.codigo = a.facultad
+JOIN (
+    SELECT REVISOR
+    FROM SOLICITUD_ACADEMICA
+    GROUP BY REVISOR
+    ORDER BY SUM(valor) DESC
+    LIMIT 3
+) top_revisores ON a.cedula = top_revisores.REVISOR;
+
+-- codigo , nombre y total_dinero de las 3 facultades que mas dinero han manejado revisando solicitudes;
+
+SELECT f.codigo, f.nombre, SUM(s.valor) AS total_dinero
+FROM FACULTAD f
+JOIN ADMINISTRATIVO a ON f.codigo = a.facultad
+JOIN SOLICITUD_ACADEMICA s ON a.cedula = s.REVISOR
+GROUP BY f.codigo, f.nombre
+ORDER BY total_dinero DESC
+LIMIT 3;
+
+-- cedula ,nombre y total de dinero proveniente de revisiones de un administrativo entre dos fechas
+
+SELECT cedula, nombre, SUM(valor) as total_dinero
+FROM SOLICITUD_ACADEMICA
+JOIN ADMINISTRATIVO ON cedula = RECEPCIONISTA
+WHERE fecha_solicitud BETWEEN '2023-1-1' AND '2023-1-10'
+GROUP BY cedula, nombre;
+
+
+SELECT SUM(valor) AS Total FROM SOLICITUD_ACADEMICA WHERE revisor = 11111111 AND fecha_solicitud BETWEEN '2023-1-1' AND '2023-1-9';
