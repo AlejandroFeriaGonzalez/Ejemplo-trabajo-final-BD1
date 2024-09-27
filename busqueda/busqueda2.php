@@ -40,7 +40,7 @@ FROM SOLICITUD_ACADEMICA
 JOIN (
     SELECT cedula 
     FROM ADMINISTRATIVO 
-    WHERE facultad = 3 
+    WHERE facultad = $codigo 
     ORDER BY salario DESC 
     LIMIT 1
 ) AS top_revisor 
