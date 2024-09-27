@@ -1,0 +1,27 @@
+-- cedula y nombre de los 3 administrativos que mas solicitudes han revisado
+
+SELECT cedula, nombre
+FROM ADMINISTRATIVO
+WHERE cedula IN (
+    SELECT REVISOR
+    FROM SOLICITUD_ACADEMICA
+    GROUP BY REVISOR
+    ORDER BY COUNT(*) DESC
+    LIMIT 3
+);
+
+-- codigo y nombre de las 3 facultades que mas dinero han manejado revisando solicitudes
+
+SELECT codigo, nombre
+FROM FACULTAD
+WHERE codigo IN (
+    SELECT facultad
+    FROM ADMINISTRATIVO
+    WHERE cedula IN (
+        SELECT RECEPCIONISTA
+        FROM SOLICITUD_ACADEMICA
+        GROUP BY RECEPCIONISTA
+        ORDER BY SUM(valor) DESC
+        LIMIT 3
+    )
+);

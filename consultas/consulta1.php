@@ -6,11 +6,7 @@ include "../includes/header.php";
 <h1 class="mt-3">Consulta 1</h1>
 
 <p class="mt-3">
-    Sea sumavalor la suma de los valores de todos los proyectos asociados con un cliente.
-    El primer botón debe mostrar la cédula y el nombre de cada uno de los clientes 
-    que cumple todas las siguientes condiciones: es gerente, tiene sumavalor > 1000,
-    ha revisado al menos 3 proyectos y la empresa que gerencia no ha revisado ni un
-    solo proyecto.
+Cédula y el nombre de los tres administrativos que mas solicitudes han revisado
 </p>
 
 <?php
@@ -18,7 +14,15 @@ include "../includes/header.php";
 require('../config/conexion.php');
 
 // Query SQL a la BD -> Crearla acá (No está completada, cambiarla a su contexto y a su analogía)
-$query = "SELECT cedula, nombre FROM cliente";
+$query = "SELECT a.cedula, a.nombre
+FROM ADMINISTRATIVO a
+JOIN (
+    SELECT REVISOR
+    FROM SOLICITUD_ACADEMICA
+    GROUP BY REVISOR
+    ORDER BY COUNT(*) DESC
+    LIMIT 3
+) top_revisores ON a.cedula = top_revisores.REVISOR";
 
 // Ejecutar la consulta
 $resultadoC1 = mysqli_query($conn, $query) or die(mysqli_error($conn));
