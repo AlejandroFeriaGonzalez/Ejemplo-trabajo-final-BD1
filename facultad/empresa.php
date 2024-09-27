@@ -84,8 +84,8 @@ if($resultadoEmpresa and $resultadoEmpresa->num_rows > 0):
             <tr>
                 <th scope="col" class="text-center">codigo</th>
                 <th scope="col" class="text-center">nombre</th>
-                <th scope="col" class="text-center">numero_contacto</th>
-                <th scope="col" class="text-center">correo</th>
+                <th scope="col" class="text-center">numero de contacto</th>
+                <th scope="col" class="text-center">correo institucional</th>
                 <!-- <th scope="col" class="text-center">Cliente</th> -->
                 <th scope="col" class="text-center">Acciones</th>
             </tr>
@@ -104,7 +104,7 @@ if($resultadoEmpresa and $resultadoEmpresa->num_rows > 0):
                 <td class="text-center"><?= $fila["codigo"]; ?></td>
                 <td class="text-center"><?= $fila["nombre"]; ?></td>
                 <td class="text-center"><?= $fila["numero_contacto"]; ?></td>
-                <td class="text-center"><?= $fila["correo"]; ?></td>
+                <td class="text-center"><?= $fila["correo_institucional"]; ?></td>
                 <!-- <td class="text-center">C.C. <?= $fila["cliente"]; ?></td> -->
                 
                 <!-- Botón de eliminar. Debe de incluir la CP de la entidad para identificarla -->

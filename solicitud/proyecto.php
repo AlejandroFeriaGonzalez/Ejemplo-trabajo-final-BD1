@@ -3,7 +3,7 @@ include "../includes/header.php";
 ?>
 
 <!-- TÍTULO. Cambiarlo, pero dejar especificada la analogía -->
-<h1 class="mt-3">Entidad análoga a PROYECTO (SOLICITUD ECONOMICA)</h1>
+<h1 class="mt-3">Entidad análoga a PROYECTO (SOLICITUD ACADEMICA)</h1>
 
 <!-- FORMULARIO. Cambiar los campos de acuerdo a su trabajo -->
 <div class="formulario p-4 m-3 border rounded-3">
@@ -16,26 +16,46 @@ include "../includes/header.php";
         </div>
 
         <div class="mb-3">
-            <label for="fechacreacion" class="form-label">Fecha de creación</label>
-            <input type="date" class="form-control" id="fechacreacion" name="fechacreacion" required>
+            <label for="fecha_solicitud" class="form-label">Fecha de solicitud</label>
+            <input type="date" class="form-control" id="fecha_solicitud" name="fecha_solicitud" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="tipo_solicitud" class="form-label">tipo de solicitud</label>
+            <input type="text" class="form-control" id="tipo_solicitud" name="tipo_solicitud" required>
         </div>
 
         <div class="mb-3">
             <label for="valor" class="form-label">Valor</label>
             <input type="number" class="form-control" id="valor" name="valor" required>
         </div>
+
+        <div class="mb-3">
+            <label for="estudiante" class="form-label">Estudiante</label>
+            <input type="number" class="form-control" id="estudiante" name="estudiante" required>
+        </div>
+
+        <!-- <div class="mb-3">
+            <label for="recepcionista" class="form-label">recepcionista</label>
+            <input type="text" class="form-control" id="recepcionista" name="recepcionista" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="revisor" class="form-label">revisor</label>
+            <input type="text" class="form-control" id="revisor" name="revisor" required>
+        </div> -->
         
         <!-- Consultar la lista de clientes y desplegarlos -->
         <div class="mb-3">
-            <label for="cliente" class="form-label">Cliente</label>
-            <select name="cliente" id="cliente" class="form-select">
+            <label for="recepcionista" class="form-label">Recepcionista</label>
+            <select name="recepcionista" id="recepcionista" class="form-select">
                 
                 <!-- Option por defecto -->
                 <option value="" selected disabled hidden></option>
 
                 <?php
                 // Importar el código del otro archivo
-                require("../cliente/cliente_select.php");
+                require("../administrativo/cliente_select.php");
                 
                 // Verificar si llegan datos
                 if($resultadoCliente):
@@ -57,7 +77,7 @@ include "../includes/header.php";
 
         <!-- Consultar la lista de empresas y desplegarlos -->
         <div class="mb-3">
-            <label for="empresa" class="form-label">Empresa</label>
+            <label for="empresa" class="form-label">Revisor</label>
             <select name="empresa" id="empresa" class="form-select">
                 
                 <!-- Option por defecto -->
@@ -65,7 +85,7 @@ include "../includes/header.php";
 
                 <?php
                 // Importar el código del otro archivo
-                require("../empresa/empresa_select.php");
+                require("../facultad/empresa_select.php");
                 
                 // Verificar si llegan datos
                 if($resultadoEmpresa):
@@ -75,7 +95,7 @@ include "../includes/header.php";
                 ?>
 
                 <!-- Opción que se genera -->
-                <option value="<?= $fila["nit"]; ?>"><?= $fila["nombre"]; ?> - NIT: <?= $fila["nit"]; ?></option>
+                <option value="<?= $fila["codigo"]; ?>"><?= $fila["nombre"]; ?> - NIT: <?= $fila["codigo"]; ?></option>
 
                 <?php
                         // Cerrar los estructuras de control
@@ -100,7 +120,7 @@ if($resultadoProyecto and $resultadoProyecto->num_rows > 0):
 ?>
 
 <!-- MOSTRAR LA TABLA. Cambiar las cabeceras -->
-<div class="tabla mt-5 mx-3 rounded-3 overflow-hidden">
+<div class="tabla mt-7 mx-3 rounded-3 overflow-hidden">
 
     <table class="table table-striped table-bordered">
 
@@ -109,9 +129,11 @@ if($resultadoProyecto and $resultadoProyecto->num_rows > 0):
             <tr>
                 <th scope="col" class="text-center">Código</th>
                 <th scope="col" class="text-center">Fecha de creación</th>
+                <th scope="col" class="text-center">Tipo de creación</th>
+                <th scope="col" class="text-center">Estudiante</th>
                 <th scope="col" class="text-center">Valor</th>
-                <th scope="col" class="text-center">Cliente</th>
-                <th scope="col" class="text-center">Empresa</th>
+                <th scope="col" class="text-center">Recepcionista</th>
+                <th scope="col" class="text-center">Revisor</th>
                 <th scope="col" class="text-center">Acciones</th>
             </tr>
         </thead>
@@ -127,10 +149,12 @@ if($resultadoProyecto and $resultadoProyecto->num_rows > 0):
             <tr>
                 <!-- Cada una de las columnas, con su valor correspondiente -->
                 <td class="text-center"><?= $fila["codigo"]; ?></td>
-                <td class="text-center"><?= $fila["fechacreacion"]; ?></td>
+                <td class="text-center"><?= $fila["fecha_solicitud"]; ?></td>
+                <td class="text-center"><?= $fila["tipo_solicitud"]; ?></td>
+                <td class="text-center"><?= $fila["estudiante"]; ?></td>
                 <td class="text-center">$<?= $fila["valor"]; ?></td>
-                <td class="text-center">C.C. <?= $fila["cliente"]; ?></td>
-                <td class="text-center">NIT: <?= $fila["empresa"]; ?></td>
+                <td class="text-center"><?= $fila["recepcionista"]; ?></td>
+                <td class="text-center"><?= $fila["revisor"]; ?></td>
                 
                 <!-- Botón de eliminar. Debe de incluir la CP de la entidad para identificarla -->
                 <td class="text-center">

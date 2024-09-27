@@ -44,7 +44,7 @@
         <ul>
             <li><a href="administrativo/cliente.php">Entidad análoga a CLIENTE (ADMINISTRATIVO)</a></li>
             <li><a href="facultad/empresa.php">Entidad análoga a EMPRESA (FACULTAD)</a></li>
-            <li><a href="proyecto/proyecto.php">Entidad análoga a PROYECTO (SOLICITUD ACADEMICA)</a></li>
+            <li><a href="solicitud/proyecto.php">Entidad análoga a PROYECTO (SOLICITUD ACADEMICA)</a></li>
             <li><a href="consultas/consulta1.php">Consulta 1</a></li>
             <li><a href="consultas/consulta2.php">Consulta 2</a></li>
             <li><a href="busqueda/busqueda1.php">Búsqueda 1</a></li>
