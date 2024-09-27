@@ -26,8 +26,8 @@ include "../includes/header.php";
         </div>
 
         <div class="mb-4">
-            <label for="correo" class="form-label">correo</label>
-            <input type="text" class="form-control" id="correo" name="correo" required>
+            <label for="correo_institucional" class="form-label">correo</label>
+            <input type="text" class="form-control" id="correo_institucional" name="correo_institucional" required>
         </div>
         
         

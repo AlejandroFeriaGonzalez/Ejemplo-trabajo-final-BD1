@@ -8,7 +8,7 @@ $codigo = $_POST["codigo"];
 $nombre = $_POST["nombre"];
 $numero_contacto = $_POST["numero_contacto"];
 $correo_institucional = $_POST["correo_institucional"];
-$cliente = $_POST["cliente"];
+// $cliente = $_POST["cliente"];
 
 
 // Query SQL a la BD. Si tienen que hacer comprobaciones, hacerlas acá (Generar una query diferente para casos especiales)
