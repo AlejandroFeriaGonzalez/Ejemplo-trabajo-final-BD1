@@ -76,26 +76,26 @@ include "../includes/header.php";
         </div>
 
         <!-- Consultar la lista de empresas y desplegarlos -->
-        <div class="mb-3">
-            <label for="empresa" class="form-label">Revisor</label>
-            <select name="empresa" id="empresa" class="form-select">
+        <div class="mb-3">  
+            <label for="revisor" class="form-label">Revisor</label>
+            <select name="revisor" id="revisor" class="form-select">
                 
                 <!-- Option por defecto -->
                 <option value="" selected disabled hidden></option>
 
                 <?php
                 // Importar el código del otro archivo
-                require("../facultad/empresa_select.php");
+                require("../administrativo/cliente_select.php");
                 
                 // Verificar si llegan datos
-                if($resultadoEmpresa):
+                if($resultadoCliente):
                     
                     // Iterar sobre los registros que llegaron
-                    foreach ($resultadoEmpresa as $fila):
+                    foreach ($resultadoCliente as $fila):
                 ?>
 
                 <!-- Opción que se genera -->
-                <option value="<?= $fila["codigo"]; ?>"><?= $fila["nombre"]; ?> - NIT: <?= $fila["codigo"]; ?></option>
+                <option value="<?= $fila["cedula"]; ?>"><?= $fila["nombre"]; ?> - C.C. <?= $fila["cedula"]; ?></option>
 
                 <?php
                         // Cerrar los estructuras de control
