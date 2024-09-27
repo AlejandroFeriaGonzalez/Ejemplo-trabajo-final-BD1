@@ -21,8 +21,13 @@ include "../includes/header.php";
         </div>
 
         <div class="mb-3">
-            <label for="celular" class="form-label">Celular</label>
-            <input type="number" class="form-control" id="celular" name="celular" required>
+            <label for="salario" class="form-label">Salario</label>
+            <input type="number" class="form-control" id="salario" name="salario" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="facultad" class="form-label">Facultad</label>
+            <input type="text" class="form-control" id="facultad" name="facultad" required>
         </div>
 
         <button type="submit" class="btn btn-primary">Agregar</button>
@@ -49,7 +54,7 @@ if($resultadoCliente and $resultadoCliente->num_rows > 0):
             <tr>
                 <th scope="col" class="text-center">Cédula</th>
                 <th scope="col" class="text-center">Nombre</th>
-                <th scope="col" class="text-center">Celular</th>
+                <th scope="col" class="text-center">Salario</th>
                 <th scope="col" class="text-center">Acciones</th>
             </tr>
         </thead>
@@ -66,7 +71,7 @@ if($resultadoCliente and $resultadoCliente->num_rows > 0):
                 <!-- Cada una de las columnas, con su valor correspondiente -->
                 <td class="text-center"><?= $fila["cedula"]; ?></td>
                 <td class="text-center"><?= $fila["nombre"]; ?></td>
-                <td class="text-center"><?= $fila["celular"]; ?></td>
+                <td class="text-center"><?= $fila["salario"]; ?></td>
                 
                 <!-- Botón de eliminar. Debe de incluir la CP de la entidad para identificarla -->
                 <td class="text-center">

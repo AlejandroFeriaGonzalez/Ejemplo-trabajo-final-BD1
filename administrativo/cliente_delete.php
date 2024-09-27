@@ -7,7 +7,7 @@ require('../config/conexion.php');
 $cedulaEliminar = $_POST["cedulaEliminar"];
 
 // Query SQL a la BD
-$query = "DELETE FROM cliente WHERE cedula = '$cedulaEliminar'";
+$query = "DELETE FROM usuario WHERE cedula = '$cedulaEliminar'";
 
 // Ejecutar consulta
 $result = mysqli_query($conn, $query) or die(mysqli_error($conn));

@@ -4,7 +4,7 @@
 require('../config/conexion.php');
 
 // Query SQL a la BD
-$query = "SELECT * FROM cliente";
+$query = "SELECT * FROM usuario";
 
 // Ejecutar la consulta
 $resultadoCliente = mysqli_query($conn, $query) or die(mysqli_error($conn));
