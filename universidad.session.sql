@@ -18,19 +18,16 @@ CREATE TABLE USUARIO(
 
 DROP TABLE IF EXISTS PROFESOR;
 CREATE TABLE PROFESOR(
-    codigo INT(10) PRIMARY KEY,
+    codigo INT(10) PRIMARY KEY REFERENCES USUARIO(codigo),
     oficina VARCHAR(50) NOT NULL,
     area_actuacion VARCHAR(50) NOT NULL,
-    facultad VARCHAR(50) NOT NULL,
-    FOREIGN KEY (codigo) REFERENCES USUARIO(codigo),
-    FOREIGN KEY (facultad) REFERENCES FACULTAD(codigo)
+    facultad VARCHAR(50) NOT NULL REFERENCES FACULTAD(nombre)
 );
 
 DROP TABLE IF EXISTS ESTUDIANTE;
 CREATE TABLE ESTUDIANTE(
-    codigo INT(10) PRIMARY KEY,
-    creditos_aprobados INT(10) NOT NULL,
-    FOREIGN KEY (codigo) REFERENCES USUARIO(codigo)
+    codigo INT(10) PRIMARY KEY REFERENCES USUARIO(codigo),
+    creditos_aprobados INT(10) NOT NULL
 );
 
 DROP TABLE IF EXISTS PREGRADO;
@@ -67,19 +64,17 @@ CREATE TABLE ASIGNATURA(
 
 DROP TABLE IF EXISTS PROGRAMA_ACADEMICO_X_ASIGNATURA;
 CREATE TABLE PROGRAMA_ACADEMICO_X_ASIGNATURA(
-    programa_academico VARCHAR(50) NOT NULL,
-    asignatura VARCHAR(50) NOT NULL,
-    FOREIGN KEY (programa_academico) REFERENCES PROGRAMA_ACADEMICO(nombre),
-    FOREIGN KEY (asignatura) REFERENCES ASIGNATURA(nombre)
+    programa_academico VARCHAR(50) NOT NULL REFERENCES PROGRAMA_ACADEMICO(nombre),
+    asignatura VARCHAR(50) NOT NULL REFERENCES ASIGNATURA(nombre),
+    PRIMARY KEY (programa_academico, asignatura)
 );
 
 -- PROFESOR_X_ASIGNATURA
 DROP TABLE IF EXISTS GRUPO;
 CREATE TABLE GRUPO(
-    profesor INT(10) NOT NULL,
-    asignatura VARCHAR(50) NOT NULL,
-    FOREIGN KEY (profesor) REFERENCES PROFESOR(codigo),
-    FOREIGN KEY (asignatura) REFERENCES ASIGNATURA(nombre)
+    profesor INT(10) NOT NULL REFERENCES PROFESOR(codigo),
+    asignatura VARCHAR(50) NOT NULL REFERENCES ASIGNATURA(nombre),
+    PRIMARY KEY (profesor, asignatura)
 );
 
 DROP TABLE IF EXISTS FACULTAD;
@@ -96,8 +91,7 @@ CREATE TABLE ADMINISTRATIVO (
     cedula INT(10) PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     salario INT(10) NOT NULL,
-    facultad VARCHAR(50) NOT NULL,
-    FOREIGN KEY (facultad) REFERENCES FACULTAD(codigo)
+    facultad INT(10) NOT NULL REFERENCES FACULTAD(codigo)
 );
 
 -- Tipos de solicitud: Cancelación de asignatura, Trabajo de grado, Reingreso, Derecho de grado
@@ -107,12 +101,9 @@ CREATE TABLE SOLICITUD_ACADEMICA(
     fecha_solicitud DATE NOT NULL,
     tipo_solicitud VARCHAR(50) NOT NULL CHECK (tipo_solicitud IN ('Inscripcion', 'Cancelacion', 'Trabajo de grado', 'Reingreso', 'Derecho de grado')),
     valor INT(10) NOT NULL,
-    estudiante INT(10) NOT NULL,
-    recepcionista INT(10),
-    revisor INT(10),
-    FOREIGN KEY (recepcionista) REFERENCES ADMINISTRATIVO(codigo),
-    FOREIGN KEY (revisor) REFERENCES ADMINISTRATIVO(codigo),
-    FOREIGN KEY (estudiante) REFERENCES ESTUDIANTE(codigo),
+    estudiante INT(10) NOT NULL REFERENCES ESTUDIANTE(codigo),
+    recepcionista INT(10) REFERENCES ADMINISTRATIVO(cedula),
+    revisor INT(10) REFERENCES ADMINISTRATIVO(cedula),
     CHECK (recepcionista <> revisor)
 );
 
@@ -120,10 +111,8 @@ DROP TABLE IF EXISTS DETALLE_CALIFICACION;
 CREATE TABLE DETALLE_CALIFICACION(
     puntuacion INT(10),
     semestre VARCHAR(50) NOT NULL,
-    grupo INT(10) NOT NULL,
-    estudiante INT(10) NOT NULL,
-    FOREIGN KEY (grupo) REFERENCES GRUPO(codigo),
-    FOREIGN KEY (estudiante) REFERENCES ESTUDIANTE(codigo),
+    grupo INT(10) NOT NULL REFERENCES GRUPO(codigo),
+    estudiante INT(10) NOT NULL REFERENCES ESTUDIANTE(codigo),
     PRIMARY KEY (grupo, estudiante, semestre)
 );
 
