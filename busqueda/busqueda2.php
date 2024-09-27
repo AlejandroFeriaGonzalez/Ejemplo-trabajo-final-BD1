@@ -6,7 +6,7 @@ include "../includes/header.php";
 <h1 class="mt-3">Búsqueda 2</h1>
 
 <p class="mt-3">
-mostrar todas las solicitudes que ha revisado el empleado de mayor salario de la facultad de Ingenieria.
+Mostrar todas las solicitudes que ha revisado el empleado de mayor salario de la facultad de Ingenieria.
 </p>
 
 <!-- FORMULARIO. Cambiar los campos de acuerdo a su trabajo -->
