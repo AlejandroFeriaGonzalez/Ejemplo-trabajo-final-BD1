@@ -30,35 +30,7 @@ include "../includes/header.php";
             <input type="text" class="form-control" id="correo" name="correo" required>
         </div>
         
-        <!-- Consultar la lista de clientes y desplegarlos -->
-        <div class="mb-4">
-            <label for="cliente" class="form-label">Cliente</label>
-            <select name="cliente" id="cliente" class="form-select">
-                
-                <!-- Option por defecto -->
-                <option value="" selected disabled hidden></option>
-
-                <?php
-                // Importar el código del otro archivo
-                require("../administrativo/cliente_select.php");
-                
-                // Verificar si llegan datos
-                if($resultadoCliente):
-                    
-                    // Iterar sobre los registros que llegaron
-                    foreach ($resultadoCliente as $fila):
-                ?>
-
-                <!-- Opción que se genera -->
-                <option value="<?= $fila["cedula"]; ?>"><?= $fila["nombre"]; ?> - C.C. <?= $fila["cedula"]; ?></option>
-
-                <?php
-                        // Cerrar los estructuras de control
-                    endforeach;
-                endif;
-                ?>
-            </select>
-        </div>
+        
 
         <button type="submit" class="btn btn-primary">Agregar</button>
 
