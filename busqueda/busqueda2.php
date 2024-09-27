@@ -6,7 +6,7 @@ include "../includes/header.php";
 <h1 class="mt-3">Búsqueda 2</h1>
 
 <p class="mt-3">
-Mostrar todas las solicitudes que ha revisado el empleado de mayor salario de la facultad de Ingenieria.
+Dado el codigo de una facultad, mostrar todas las solicitudes que ha revisado el empleado de mayor salario de esa facultad.
 </p>
 
 <!-- FORMULARIO. Cambiar los campos de acuerdo a su trabajo -->
@@ -16,7 +16,7 @@ Mostrar todas las solicitudes que ha revisado el empleado de mayor salario de la
     <form action="busqueda2.php" method="post" class="form-group">
 
         <div class="mb-3">
-            <label for="codigo" class="form-label">Numero 1</label>
+            <label for="codigo" class="form-label">Codigo de facultad</label>
             <input type="number" class="form-control" id="numero1" name="codigo" required>
         </div>
         <button type="submit" class="btn btn-primary">Buscar</button>

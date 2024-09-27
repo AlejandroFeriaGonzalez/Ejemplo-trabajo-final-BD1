@@ -108,11 +108,12 @@ CREATE TABLE SOLICITUD_ACADEMICA(
     tipo_solicitud VARCHAR(50) NOT NULL CHECK (tipo_solicitud IN ('Inscripcion', 'Cancelacion', 'Trabajo de grado', 'Reingreso', 'Derecho de grado')),
     valor INT(10) NOT NULL,
     estudiante INT(10) NOT NULL,
-    recepcionista INT(10) NOT NULL,
-    revisor INT(10) NOT NULL,
+    recepcionista INT(10),
+    revisor INT(10),
     FOREIGN KEY (recepcionista) REFERENCES ADMINISTRATIVO(codigo),
     FOREIGN KEY (revisor) REFERENCES ADMINISTRATIVO(codigo),
-    FOREIGN KEY (estudiante) REFERENCES ESTUDIANTE(codigo)
+    FOREIGN KEY (estudiante) REFERENCES ESTUDIANTE(codigo),
+    CHECK (recepcionista <> revisor)
 );
 
 DROP TABLE IF EXISTS DETALLE_CALIFICACION;
@@ -217,26 +218,26 @@ INSERT INTO ADMINISTRATIVO (cedula, nombre, salario, facultad) VALUES
 (55555555, 'Daniel', 4000000, 4);
 
 INSERT INTO SOLICITUD_ACADEMICA (codigo, fecha_solicitud, tipo_solicitud, valor, estudiante, recepcionista, revisor) VALUES
-(1, '2023-1-1', 'Inscripcion', 1000000, 2, 11111111, 11111111),
-(2, '2023-1-2', 'Cancelacion', 2000000, 4, 33333333, 11111111),
-(3, '2023-1-3', 'Trabajo de grado', 3000000, 6, 11111111, 22222222),
-(4, '2023-1-4', 'Reingreso', 4000000, 8, 33333333, 22222222),
-(5, '2023-1-5', 'Derecho de grado', 5000000, 2, 11111111, 33333333),
-(6, '2023-1-6', 'Inscripcion', 6000000, 4, 33333333, 44444444),--
-(7, '2023-1-7', 'Cancelacion', 7000000, 6, 11111111, 44444444),
-(8, '2023-1-8', 'Trabajo de grado', 8000000, 8, 33333333, 44444444),
-(9, '2023-1-9', 'Reingreso', 9000000, 2, 11111111, 11111111),
-(10, '2023-1-10', 'Derecho de grado', 10000000, 4, 33333333, 11111111),
-(11, '2023-1-11', 'Inscripcion', 11000000, 6, 11111111, 22222222),
-(12, '2023-1-12', 'Cancelacion', 12000000, 8, 33333333, 22222222),
-(13, '2023-1-13', 'Trabajo de grado', 13000000, 2, 11111111, 33333333),
-(14, '2023-1-14', 'Reingreso', 14000000, 4, 33333333, 33333333),
-(15, '2023-1-15', 'Derecho de grado', 15000000, 6, 11111111, 44444444),--
-(16, '2023-1-16', 'Inscripcion', 16000000, 8, 33333333, 44444444),
-(17, '2023-1-17', 'Cancelacion', 17000000, 2, 11111111, 11111111),
-(18, '2023-1-18', 'Trabajo de grado', 18000000, 4, 33333333, 11111111),
-(19, '2023-1-19', 'Reingreso', 19000000, 6, 11111111, 55555555),
-(20, '2023-1-20', 'Derecho de grado', 20000000, 8, 33333333, 55555555);
+(1, '2023-1-1', 'Inscripcion', 1000000, 2, 11111111, 22222222),
+(2, '2023-1-2', 'Cancelacion', 200000, 4, 33333333, 11111111),
+(3, '2023-1-3', 'Trabajo de grado', 300000, 6, 11111111, 22222222),
+(4, '2023-1-4', 'Reingreso', 400000, 8, 33333333, 22222222),
+(5, '2023-1-5', 'Derecho de grado', 500000, 2, 11111111, 33333333),
+(6, '2023-1-6', 'Inscripcion', 1000000, 4, 33333333, 44444444),--
+(7, '2023-1-7', 'Cancelacion', 200000, 6, 11111111, 44444444),
+(8, '2023-1-8', 'Trabajo de grado', 300000, 8, 33333333, 44444444),
+(9, '2023-1-9', 'Reingreso', 400000, 2, 11111111, 22222222),
+(10, '2023-1-10', 'Derecho de grado', 500000, 4, 33333333, 11111111),
+(11, '2023-1-11', 'Inscripcion', 1000000, 6, 11111111, 22222222),
+(12, '2023-1-12', 'Cancelacion', 200000, 8, 33333333, 22222222),
+(13, '2023-1-13', 'Trabajo de grado', 300000, 2, 11111111, 33333333),
+(14, '2023-1-14', 'Reingreso', 400000, 4, 33333333, 44444444),
+(15, '2023-1-15', 'Derecho de grado', 500000, 6, 11111111, 44444444),--
+(16, '2023-1-16', 'Inscripcion', 1000000, 8, 33333333, 44444444),
+(17, '2023-1-17', 'Cancelacion', 200000, 2, 11111111, 44444444),
+(18, '2023-1-18', 'Trabajo de grado', 300000, 4, 33333333, 11111111),
+(19, '2023-1-19', 'Reingreso', 400000, 6, 11111111, 55555555),
+(20, '2023-1-20', 'Derecho de grado', 500000, 8, 33333333, 55555555);
 
 
 -- mostrar todas las solicitudes que ha revisado el empleado de mayor salario de la facultad de Ingenieria, en consulta debe decir textualmento 'Ingenieria'
