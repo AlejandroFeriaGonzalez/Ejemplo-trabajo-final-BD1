@@ -6,27 +6,32 @@ include "../includes/header.php";
 <h1 class="mt-3">Entidad análoga a EMPRESA (FACULTAD)</h1>
 
 <!-- FORMULARIO. Cambiar los campos de acuerdo a su trabajo -->
-<div class="formulario p-4 m-3 border rounded-3">
+<div class="formulario p-5 m-4 border rounded-3">
 
     <form action="empresa_insert.php" method="post" class="form-group">
 
-        <div class="mb-3">
-            <label for="nit" class="form-label">NIT</label>
-            <input type="number" class="form-control" id="nit" name="nit" required>
+        <div class="mb-4">
+            <label for="codigo" class="form-label">codigo</label>
+            <input type="number" class="form-control" id="codigo" name="codigo" required>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="nombre" class="form-label">Nombre</label>
             <input type="text" class="form-control" id="nombre" name="nombre" required>
         </div>
 
-        <div class="mb-3">
-            <label for="presupuesto" class="form-label">Presupuesto</label>
-            <input type="number" class="form-control" id="presupuesto" name="presupuesto" required>
+        <div class="mb-4">
+            <label for="numero_contacto" class="form-label">numero de contacto</label>
+            <input type="number" class="form-control" id="numero_contacto" name="numero_contacto" required>
+        </div>
+
+        <div class="mb-4">
+            <label for="correo" class="form-label">correo</label>
+            <input type="text" class="form-control" id="correo" name="correo" required>
         </div>
         
         <!-- Consultar la lista de clientes y desplegarlos -->
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="cliente" class="form-label">Cliente</label>
             <select name="cliente" id="cliente" class="form-select">
                 
@@ -35,7 +40,7 @@ include "../includes/header.php";
 
                 <?php
                 // Importar el código del otro archivo
-                require("../cliente/cliente_select.php");
+                require("../administrativo/cliente_select.php");
                 
                 // Verificar si llegan datos
                 if($resultadoCliente):
@@ -77,10 +82,11 @@ if($resultadoEmpresa and $resultadoEmpresa->num_rows > 0):
         <!-- Títulos de la tabla, cambiarlos -->
         <thead class="table-dark">
             <tr>
-                <th scope="col" class="text-center">NIT</th>
-                <th scope="col" class="text-center">Nombre</th>
-                <th scope="col" class="text-center">Presupuesto</th>
-                <th scope="col" class="text-center">Cliente</th>
+                <th scope="col" class="text-center">codigo</th>
+                <th scope="col" class="text-center">nombre</th>
+                <th scope="col" class="text-center">numero_contacto</th>
+                <th scope="col" class="text-center">correo</th>
+                <!-- <th scope="col" class="text-center">Cliente</th> -->
                 <th scope="col" class="text-center">Acciones</th>
             </tr>
         </thead>
@@ -95,15 +101,16 @@ if($resultadoEmpresa and $resultadoEmpresa->num_rows > 0):
             <!-- Fila que se generará -->
             <tr>
                 <!-- Cada una de las columnas, con su valor correspondiente -->
-                <td class="text-center"><?= $fila["nit"]; ?></td>
+                <td class="text-center"><?= $fila["codigo"]; ?></td>
                 <td class="text-center"><?= $fila["nombre"]; ?></td>
-                <td class="text-center">$<?= $fila["presupuesto"]; ?></td>
-                <td class="text-center">C.C. <?= $fila["cliente"]; ?></td>
+                <td class="text-center"><?= $fila["numero_contacto"]; ?></td>
+                <td class="text-center"><?= $fila["correo"]; ?></td>
+                <!-- <td class="text-center">C.C. <?= $fila["cliente"]; ?></td> -->
                 
                 <!-- Botón de eliminar. Debe de incluir la CP de la entidad para identificarla -->
                 <td class="text-center">
                     <form action="empresa_delete.php" method="post">
-                        <input hidden type="text" name="nitEliminar" value="<?= $fila["nit"]; ?>">
+                        <input hidden type="text" name="codigoEliminar" value="<?= $fila["codigo"]; ?>">
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </form>
                 </td>
