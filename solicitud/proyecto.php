@@ -31,7 +31,7 @@ include "../includes/header.php";
         </div>
 
         <div class="mb-3">
-            <label for="estudiante" class="form-label">Estudiante</label>
+            <label for="estudiante" class="form-label">Codigo estudiante</label>
             <input type="number" class="form-control" id="estudiante" name="estudiante" required>
         </div>
 
@@ -130,7 +130,7 @@ if($resultadoProyecto and $resultadoProyecto->num_rows > 0):
                 <th scope="col" class="text-center">Código</th>
                 <th scope="col" class="text-center">Fecha de creación</th>
                 <th scope="col" class="text-center">Tipo de creación</th>
-                <th scope="col" class="text-center">Estudiante</th>
+                <th scope="col" class="text-center">Codigo estudiante</th>
                 <th scope="col" class="text-center">Valor</th>
                 <th scope="col" class="text-center">Recepcionista</th>
                 <th scope="col" class="text-center">Revisor</th>
