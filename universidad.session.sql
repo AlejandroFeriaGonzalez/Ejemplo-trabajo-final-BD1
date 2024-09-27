@@ -1,4 +1,5 @@
 -- Se usa solamento SQL stander
+DROP TABLE IF EXISTS solicitud;
 
 -- TABLA USUARIO CON DOS SUBTIPOS LLAMADOS PROFESOR Y ESTUDIANTE
 DROP TABLE IF EXISTS USUARIO;
@@ -11,7 +12,8 @@ CREATE TABLE USUARIO(
     genero VARCHAR(50) NOT NULL,
     numero_telefonico INT(10) NOT NULL,
     fecha_nacimiento DATE NOT NULL,
-    tipo VARCHAR(1) NOT NULL CHECK (tipo IN ('P', 'E'))
+    tipo VARCHAR(1) NOT NULL CHECK (tipo IN ('P', 'E')),
+    CHECK (correo_institucional LIKE '%@universidad.edu.co')
 );
 
 DROP TABLE IF EXISTS PROFESOR;
@@ -21,7 +23,7 @@ CREATE TABLE PROFESOR(
     area_actuacion VARCHAR(50) NOT NULL,
     facultad VARCHAR(50) NOT NULL,
     FOREIGN KEY (codigo) REFERENCES USUARIO(codigo),
-    FOREIGN KEY (facultad) REFERENCES FACULTAD(nombre_facultad)
+    FOREIGN KEY (facultad) REFERENCES FACULTAD(codigo)
 );
 
 DROP TABLE IF EXISTS ESTUDIANTE;
@@ -82,9 +84,11 @@ CREATE TABLE GRUPO(
 
 DROP TABLE IF EXISTS FACULTAD;
 CREATE TABLE FACULTAD(
-    nombre_facultad VARCHAR(50) PRIMARY KEY,
+    codigo INT(10) PRIMARY KEY,
+    nombre VARCHAR(50),
     numero_contacto INT(10) NOT NULL,
-    correo VARCHAR(50) NOT NULL
+    correo_institucional VARCHAR(50) NOT NULL,
+    CHECK (correo_institucional LIKE '%@universidad.edu.co')
 );
 
 DROP TABLE IF EXISTS ADMINISTRATIVO;
@@ -93,19 +97,22 @@ CREATE TABLE ADMINISTRATIVO (
     nombre VARCHAR(50) NOT NULL,
     salario INT(10) NOT NULL,
     facultad VARCHAR(50) NOT NULL,
-    FOREIGN KEY (facultad) REFERENCES FACULTAD(nombre_facultad)
+    FOREIGN KEY (facultad) REFERENCES FACULTAD(codigo)
 );
 
-DROP TABLE IF EXISTS SOLICITUD;
-CREATE TABLE SOLICITUD(
+-- Tipos de solicitud: Cancelación de asignatura, Trabajo de grado, Reingreso, Derecho de grado
+DROP TABLE IF EXISTS SOLICITUD_ACADEMICA;
+CREATE TABLE SOLICITUD_ACADEMICA(
     codigo INT(10) PRIMARY KEY,
     fecha_solicitud DATE NOT NULL,
-    tipo_solicitud VARCHAR(50) NOT NULL,
+    tipo_solicitud VARCHAR(50) NOT NULL CHECK (tipo_solicitud IN ('Inscripcion', 'Cancelacion', 'Trabajo de grado', 'Reingreso', 'Derecho de grado')),
     valor INT(10) NOT NULL,
+    estudiantes INT(10) NOT NULL,
     RECEPCIONISTA INT(10) NOT NULL,
     REVISOR INT(10) NOT NULL,
     FOREIGN KEY (RECEPCIONISTA) REFERENCES ADMINISTRATIVO(codigo),
-    FOREIGN KEY (REVISOR) REFERENCES ADMINISTRATIVO(codigo)
+    FOREIGN KEY (REVISOR) REFERENCES ADMINISTRATIVO(codigo),
+    FOREIGN KEY (estudiantes) REFERENCES ESTUDIANTE(codigo)
 );
 
 DROP TABLE IF EXISTS DETALLE_CALIFICACION;
@@ -120,26 +127,30 @@ CREATE TABLE DETALLE_CALIFICACION(
 );
 
 -- Insertar datos en la tabla FACULTAD
-INSERT INTO FACULTAD (nombre_facultad, numero_contacto, correo) VALUES
-('Ingenieria', 123456789, 'ingenieria@universidad.edu'),
-('Ciencias', 987654321, 'ciencias@universidad.edu'),
-('Humanidades', 555555555, 'humanidades@universidad.edu');
+
+INSERT INTO FACULTAD (codigo, nombre, numero_contacto, correo_institucional) VALUES
+(1, 'Ingenieria', 123456789, 'ingenieria@universidad.edu.co'),
+(2, 'Ciencias', 987654321, 'ciencias@universidad.edu.co'),
+(3, 'Humanidades', 555555555, 'humanidades@universidad.edu.co'),
+(4, 'Economia', 666666666, 'economia@universidad.edu.co');
+
+
 
 -- Insertar datos en la tabla USUARIO
 INSERT INTO USUARIO (codigo, nombre, cedula, correo_institucional, correo_personal, genero, numero_telefonico, fecha_nacimiento, tipo) VALUES
-(1, 'Juan Perez', 11111111, 'juan.perez@universidad.edu', 'juan.perez@gmail.com', 'M', 123456789, '1990-01-01', 'P'),
-(2, 'Maria Gomez', 22222222, 'maria.gomez@universidad.edu', 'maria.gomez@gmail.com', 'F', 987654321, '1992-02-02', 'E'),
-(3, 'Luis Martinez', 33333333, 'luis.martinez@universidad.edu', 'luis.martinez@gmail.com', 'M', 555555555, '1991-03-03', 'P'),
-(4, 'Ana Torres', 44444444, 'ana.torres@universidad.edu', 'ana.torres@gmail.com', 'F', 666666666, '1993-04-04', 'E'),
-(5, 'Pedro Alvarez', 55555555, 'pedro.alvarez@universidad.edu', 'pedro.alvarez@gmail.com', 'M', 777777777, '1994-05-05', 'P'),
-(6, 'Lucia Fernandez', 66666666, 'lucia.fernandez@universidad.edu', 'lucia.fernandez@gmail.com', 'F', 888888888, '1995-06-06', 'E'),
-(7, 'Miguel Rojas', 77777777, 'miguel.rojas@universidad.edu', 'miguel.rojas@gmail.com', 'M', 999999999, '1996-07-07', 'P'),
-(8, 'Sofia Ramirez', 88888888, 'sofia.ramirez@universidad.edu', 'sofia.ramirez@gmail.com', 'F', 111111111, '1997-08-08', 'E');
+(1, 'Juan Perez', 11111111, 'juan.perez@universidad.edu.co', 'juan.perez@gmail.com', 'M', 123456789, '1990-01-01', 'P'),
+(2, 'Maria Gomez', 22222222, 'maria.gomez@universidad.edu.co', 'maria.gomez@gmail.com', 'F', 987654321, '1992-02-02', 'E'),
+(3, 'Luis Martinez', 33333333, 'luis.martinez@universidad.edu.co', 'luis.martinez@gmail.com', 'M', 555555555, '1991-03-03', 'P'),
+(4, 'Ana Torres', 44444444, 'ana.torres@universidad.edu.co', 'ana.torres@gmail.com', 'F', 666666666, '1993-04-04', 'E'),
+(5, 'Pedro Alvarez', 55555555, 'pedro.alvarez@universidad.edu.co', 'pedro.alvarez@gmail.com', 'M', 777777777, '1994-05-05', 'P'),
+(6, 'Lucia Fernandez', 66666666, 'lucia.fernandez@universidad.edu.co', 'lucia.fernandez@gmail.com', 'F', 888888888, '1995-06-06', 'E'),
+(7, 'Miguel Rojas', 77777777, 'miguel.rojas@universidad.edu.co', 'miguel.rojas@gmail.com', 'M', 999999999, '1996-07-07', 'P'),
+(8, 'Sofia Ramirez', 88888888, 'sofia.ramirez@universidad.edu.co', 'sofia.ramirez@gmail.com', 'F', 111111111, '1997-08-08', 'E');
 
 -- Insertar datos en la tabla PROFESOR
 INSERT INTO PROFESOR (codigo, oficina, area_actuacion, facultad) VALUES
-(1, 'Oficina 101', 'Matematicas', 'Ciencias'),
-(3, 'Oficina 102', 'Filosofia', 'Humanidades');
+(1, 'Oficina 101', 'Matematicas', 2),
+(3, 'Oficina 102', 'Filosofia', 3);
 
 -- Insertar datos en la tabla ESTUDIANTE
 INSERT INTO ESTUDIANTE (codigo, creditos_aprobados) VALUES
@@ -190,22 +201,6 @@ INSERT INTO GRUPO (profesor, asignatura) VALUES
 (3, 'Etica'),
 (3, 'Logica');
 
--- Insertar datos en la tabla ADMINISTRATIVO
-INSERT INTO ADMINISTRATIVO (cedula, nombre, salario, facultad) VALUES
-(33333333, 'Carlos Ruiz', 3000, 'Ingenieria'),
-(44444444, 'Laura Sanchez', 3500, 'Humanidades'),
-(55555555, 'Pedro Alvarez', 3200, 'Ciencias'),
-(66666666, 'Lucia Fernandez', 3400, 'Ingenieria');
-
-
--- Insertar datos en la tabla SOLICITUD
-INSERT INTO SOLICITUD (codigo, fecha_solicitud, tipo_solicitud, valor, RECEPCIONISTA, REVISOR) VALUES
-(1, '2023-01-01', 'Inscripcion', 100, 33333333, 33333333),
-(2, '2023-02-01', 'Matricula', 200, 44444444, 44444444),
-(3, '2023-03-01', 'Inscripcion', 150, 55555555, 55555555),
-(4, '2023-04-01', 'Matricula', 250, 66666666, 66666666),
-(5, '2023-05-01', 'Inscripcion', 300, 33333333, 44444444),
-(6, '2023-06-01', 'Matricula', 350, 44444444, 33333333);
 
 -- Insertar datos en la tabla DETALLE_CALIFICACION
 INSERT INTO DETALLE_CALIFICACION (puntuacion, semestre, grupo, estudiante) VALUES
@@ -214,21 +209,73 @@ INSERT INTO DETALLE_CALIFICACION (puntuacion, semestre, grupo, estudiante) VALUE
 (88, '2023-1', 3, 4),
 (92, '2023-1', 4, 4);
 
--- querys
+INSERT INTO ADMINISTRATIVO (cedula, nombre, salario, facultad) VALUES
+(11111111, 'Carlos', 1000000, 1),
+(22222222, 'Andres', 2000000, 2),
+(33333333, 'Camilo', 3000000, 3),
+(44444444, 'Daniel', 4000000, 4);
 
--- 3 administrativos que mas solicitudes han revisado
+INSERT INTO SOLICITUD_ACADEMICA (codigo, fecha_solicitud, tipo_solicitud, valor, estudiantes, RECEPCIONISTA, REVISOR) VALUES
+(1, '2023-1-1', 'Inscripcion', 1000000, 2, 11111111, 11111111),
+(2, '2023-1-2', 'Cancelacion', 2000000, 4, 33333333, 11111111),
+(3, '2023-1-3', 'Trabajo de grado', 3000000, 6, 11111111, 22222222),
+(4, '2023-1-4', 'Reingreso', 4000000, 8, 33333333, 22222222),
+(5, '2023-1-5', 'Derecho de grado', 5000000, 2, 11111111, 33333333),
+(6, '2023-1-6', 'Inscripcion', 6000000, 4, 33333333, 44444444),
+(7, '2023-1-7', 'Cancelacion', 7000000, 6, 11111111, 44444444),
+(8, '2023-1-8', 'Trabajo de grado', 8000000, 8, 33333333, 44444444),
+(9, '2023-1-9', 'Reingreso', 9000000, 2, 11111111, 11111111),
+(10, '2023-1-10', 'Derecho de grado', 10000000, 4, 33333333, 11111111),
+(11, '2023-1-11', 'Inscripcion', 11000000, 6, 11111111, 22222222),
+(12, '2023-1-12', 'Cancelacion', 12000000, 8, 33333333, 22222222),
+(13, '2023-1-13', 'Trabajo de grado', 13000000, 2, 11111111, 33333333),
+(14, '2023-1-14', 'Reingreso', 14000000, 4, 33333333, 33333333),
+(15, '2023-1-15', 'Derecho de grado', 15000000, 6, 11111111, 44444444),
+(16, '2023-1-16', 'Inscripcion', 16000000, 8, 33333333, 44444444),
+(17, '2023-1-17', 'Cancelacion', 17000000, 2, 11111111, 11111111),
+(18, '2023-1-18', 'Trabajo de grado', 18000000, 4, 33333333, 11111111);
 
-SELECT REVISOR, COUNT(*) AS SOLICITUDES_REVISADAS
-FROM SOLICITUD
-GROUP BY REVISOR
-ORDER BY SOLICITUDES_REVISADAS DESC
+-- cedula y nombre de los 3 administrativos que mas solicitudes han revisado
+
+SELECT a.cedula, a.nombre
+FROM ADMINISTRATIVO a
+JOIN (
+    SELECT REVISOR
+    FROM SOLICITUD_ACADEMICA
+    GROUP BY REVISOR
+    ORDER BY COUNT(*) DESC
+    LIMIT 3
+) top_revisores ON a.cedula = top_revisores.REVISOR;
+
+-- cedula y nombre y total de los 3 administrativos que mas solicitudes han revisado
+
+SELECT a.cedula, a.nombre, COUNT(*) AS total
+FROM ADMINISTRATIVO a
+JOIN SOLICITUD_ACADEMICA s ON a.cedula = s.REVISOR
+GROUP BY a.cedula, a.nombre
+ORDER BY total DESC
 LIMIT 3;
 
--- 3 facultades que mas dinero han manejado en solicitudes
 
-SELECT facultad, SUM(valor) AS DINERO_MANEJADO
-FROM SOLICITUD
-JOIN ADMINISTRATIVO ON RECEPCIONISTA = cedula
-GROUP BY facultad
-ORDER BY DINERO_MANEJADO DESC
+-- codigo y nombre de las 3 facultades que mas dinero han manejado revisando solicitudes;
+
+SELECT f.codigo, f.nombre
+FROM FACULTAD f
+JOIN ADMINISTRATIVO a ON f.codigo = a.facultad
+JOIN (
+    SELECT REVISOR
+    FROM SOLICITUD_ACADEMICA
+    GROUP BY REVISOR
+    ORDER BY SUM(valor) DESC
+    LIMIT 3
+) top_revisores ON a.cedula = top_revisores.REVISOR;
+
+-- codigo , nombre y total_dinero de las 3 facultades que mas dinero han manejado revisando solicitudes;
+
+SELECT f.codigo, f.nombre, SUM(s.valor) AS total_dinero
+FROM FACULTAD f
+JOIN ADMINISTRATIVO a ON f.codigo = a.facultad
+JOIN SOLICITUD_ACADEMICA s ON a.cedula = s.REVISOR
+GROUP BY f.codigo, f.nombre
+ORDER BY total_dinero DESC
 LIMIT 3;
