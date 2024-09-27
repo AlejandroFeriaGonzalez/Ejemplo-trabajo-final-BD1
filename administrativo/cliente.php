@@ -25,9 +25,38 @@ include "../includes/header.php";
             <input type="number" class="form-control" id="salario" name="salario" required>
         </div>
 
-        <div class="mb-4">
+        <!-- <div class="mb-4">
             <label for="facultad" class="form-label">Facultad</label>
             <input type="text" class="form-control" id="facultad" name="facultad" required>
+        </div> -->
+
+        <div class="mb-4">
+            <label for="facultad" class="form-label">facultad</label>
+            <select name="facultad" id="facultad" class="form-select">
+                
+                <!-- Option por defecto -->
+                <option value="" selected disabled hidden></option>
+
+                <?php
+                // Importar el código del otro archivo
+                require("../facultad/empresa_select.php");
+                
+                // Verificar si llegan datos
+                if($resultadoEmpresa):
+                    
+                    // Iterar sobre los registros que llegaron
+                    foreach ($resultadoEmpresa as $fila):
+                ?>
+
+                <!-- Opción que se genera -->
+                <option value="<?= $fila["codigo"]; ?>"><?= $fila["nombre"]; ?> - C.C. <?= $fila["codigo"]; ?></option>
+
+                <?php
+                        // Cerrar los estructuras de control
+                    endforeach;
+                endif;
+                ?>
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary">Agregar</button>
